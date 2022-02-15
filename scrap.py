@@ -1,21 +1,21 @@
 from selenium import webdriver
 import time
 from random import randint
-
-#COMENTARIO PARA PROBAR EL GIT
-
-driver = webdriver.Chrome()
-driver.maximize_window()
+import pandas as pd
 
 int_txt = 1
 caracter_comillas = "'"
 
-mail_password =[['distintosuso@gmail.com','uno23456789']]
+mail_password =[['distintosuso@gmail.com','uno23456789'], ['random1234usos@gmail.com','uno23456789']]
 array_ids = ["about", "courses", "honors_and_awards", "experience", "education", "licenses_and_certifications", "skills", "languages", "recommendations", "final"]
+#array_ids = ["recommendations", "final"]
 
 all_profiles = []
 
 for i in mail_password:
+
+    driver = webdriver.Chrome()
+    driver.maximize_window()
 
     driver.get("https://www.linkedin.com/login/es?trk=homepage-basic_ispen-login-button")
     time.sleep(5)
@@ -112,7 +112,7 @@ for i in mail_password:
                     if(id=="about"):
                         
                         about_profile = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/div/div/span[1]").text
-                        profile.append(about_profile)
+                        profile.append([about_profile])
                         break
 
                     if(id=="courses"):
@@ -167,7 +167,7 @@ for i in mail_password:
                         break
 
                     if(id=="honors_and_awards"):
-                       profile.append("TIENE RECONOCIMIENTOS Y PREMIOS")
+                       profile.append([])
                        break
 
                     if(id=="experience"):
@@ -204,7 +204,7 @@ for i in mail_password:
                                                     try:
                                                         experience.append(driver.find_element_by_xpath('/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li['+str(cont)+']/div/div[2]/div/div[1]/span['+str(i)+']/span[2]').text)
                                                     except:
-                                                        experience.append('0')
+                                                        experience.append(float('NaN'))
                                                         pass
 
                                             experiences.append(experience)
@@ -244,7 +244,7 @@ for i in mail_password:
                                                         try:
                                                             aux_lugar = driver.find_element_by_xpath('/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li['+str(cont)+']/div/div[2]/div[2]/ul/li/div/div/div[1]/ul/li['+str(int_lista)+']/div/div[2]/div/a/span[3]/span[1]').text
                                                         except:
-                                                            aux_lugar = '0'
+                                                            aux_lugar = float('NaN')
 
                                                     experience.append(aux_cargo)
                                                     experience.append(aux_empresa)
@@ -279,7 +279,7 @@ for i in mail_password:
                                                     try:
                                                         experience.append(driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li['+str(cont)+']/div/div[2]/div/div[1]/span['+str(i)+']/span[2]').text)
                                                     except:
-                                                        experience.append('0')
+                                                        experience.append(float('NaN'))
 
                                             experiences.append(experience)
 
@@ -319,7 +319,7 @@ for i in mail_password:
                                                         try:
                                                             aux_lugar = driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li['+str(cont)+']/div/div[2]/div[2]/ul/li/div/div/div[1]/ul/li['+str(int_lista)+']/div/div[2]/div/a/span[3]/span[1]').text
                                                         except:
-                                                            aux_lugar = '0'
+                                                            aux_lugar = float('NaN')
                                                 
 
                                                     experience.append(aux_cargo)
@@ -362,7 +362,7 @@ for i in mail_password:
                                                     try:
                                                         experience.append(driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section['+str(int_section)+']/div[3]/ul/li['+str(cont)+']/div/div[2]/div[1]/div[1]/span['+str(i)+']/span[2]').text)
                                                     except:
-                                                        experience.append('0')
+                                                        experience.append(float('NaN'))
                                             
                                             experiences.append(experience)
                                             cont+=1
@@ -392,7 +392,7 @@ for i in mail_password:
                                                         aux_lugar = driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[3]/ul/li['+str(cont_actual)+']/div/div[2]/div[2]/ul/li['+str(int_lista)+']/div/div[2]/div[1]/a/span[2]/span[1]').text
 
                                                     except:
-                                                        aux_lugar = '0'
+                                                        aux_lugar = float('NaN')
 
                                                     experience.append(aux_cargo)
                                                     experience.append(aux_empresa)
@@ -430,7 +430,7 @@ for i in mail_password:
                                                     try:
                                                         experience.append(driver.find_element_by_xpath('/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section['+str(int_section)+']/div[3]/ul/li['+str(cont)+']/div/div[2]/div[1]/div[1]/span['+str(i)+']/span[2]').text)
                                                     except:
-                                                        experience.append('0')
+                                                        experience.append(float('NaN'))
                                             
                                             experiences.append(experience)
                                             cont+=1
@@ -457,7 +457,7 @@ for i in mail_password:
                                                         aux_lugar = driver.find_element_by_xpath('/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[3]/ul/li['+str(cont_actual)+']/div/div[2]/div[2]/ul/li['+str(int_lista)+']/div/div[2]/div[1]/a/span[2]/span[1]').text
 
                                                     except:
-                                                        aux_lugar = '0'
+                                                        aux_lugar = float('NaN')
 
                                                     experience.append(aux_cargo)
                                                     experience.append(aux_empresa)
@@ -484,19 +484,19 @@ for i in mail_password:
                         break
 
                     if(id=="education"):
-                        profile.append("TIENE EDUCACION")
+                        profile.append([])
                         break
 
                     if(id=="licenses_and_certifications"):
-                        profile.append("TIENE LICENCIAS")
+                        profile.append([])
                         break
 
                     if(id=="skills"):
-                        profile.append("TIENE APTITUDES")
+                        profile.append([])
                         break
 
                     if(id=="languages"):
-                        profile.append("TIENE IDIOMAS")
+                        profile.append([])
                         break
 
                     if(id=="recommendations"):
@@ -623,7 +623,10 @@ for i in mail_password:
 
                                     int_lista_recomendaciones+=1    
 
-                        profile.append(recomendaciones)
+                        if(len(recomendaciones) == 0):
+                            profile.append(float('NaN'))
+                        else:
+                            profile.append(recomendaciones)
                         break
 
                 except:
@@ -636,16 +639,37 @@ for i in mail_password:
                     break
 
             
-        print(profile)
+        all_profiles.append(profile)
         
-
-    
-
-    break
-
+    driver.close()
+    time.sleep(5)
             
 
+for perfil in all_profiles:
+    for indice in range(0, len(all_profiles[0])):
 
+        if(len(perfil[indice])==0):
+            perfil[indice] = float('NaN')
 
+data ={
+    'Details': [data[0] for data in all_profiles],
+    'About': [data[1] for data in all_profiles],
+    'Courses': [data[2] for data in all_profiles],
+    'Honors and awards': [data[3] for data in all_profiles],
+    'Experience': [data[4] for data in all_profiles],
+    'Education': [data[5] for data in all_profiles],
+    'Licenses and certifications': [data[6] for data in all_profiles],
+    'Skills': [data[7] for data in all_profiles],
+    'Languages': [data[8] for data in all_profiles],
+    'Recommendations': [data[9] for data in all_profiles]
+}
+
+data_frame = pd.DataFrame.from_dict(data)
+data_frame.head()
+
+data_frame.to_csv('dataset_practica.csv', encoding='utf-8', sep=',', index=False)
+
+new_df = pd.read_csv('dataset_practica.csv')
+print(new_df)
 
 
