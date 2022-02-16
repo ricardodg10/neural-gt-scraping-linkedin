@@ -642,6 +642,7 @@ for i in mail_password:
         all_profiles.append(profile)
         
     driver.close()
+    int_txt+=1
     time.sleep(5)
             
 
