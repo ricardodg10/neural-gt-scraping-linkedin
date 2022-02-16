@@ -6,9 +6,8 @@ import pandas as pd
 int_txt = 1
 caracter_comillas = "'"
 
-mail_password =[['distintosuso@gmail.com','uno23456789'], ['random1234usos@gmail.com','uno23456789']]
+mail_password =[['josediazlinkedn3@gmail.com','uno23456789'],['linkediiiiiiiiin12@gmail.com','uno23456789']]
 array_ids = ["about", "courses", "honors_and_awards", "experience", "education", "licenses_and_certifications", "skills", "languages", "recommendations", "final"]
-#array_ids = ["recommendations", "final"]
 
 all_profiles = []
 
@@ -37,13 +36,14 @@ for i in mail_password:
 
     for link_profile in Lecture.readlines():
 
+
         cont=1
 
         profile = []
 
         driver.get(link_profile)
 
-        time.sleep(10)
+        time.sleep(5)
 
         data_basic = []
         int_div_main = 5
@@ -111,9 +111,14 @@ for i in mail_password:
                     
                     if(id=="about"):
                         
-                        about_profile = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/div/div/span[1]").text
-                        profile.append([about_profile])
-                        break
+                        try:
+                            about_profile = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/div/div/span[1]").text
+                            profile.append([about_profile])
+                            break
+
+                        except:
+                            profile.append(float('NaN'))
+                            break
 
                     if(id=="courses"):
 
@@ -124,7 +129,7 @@ for i in mail_password:
                             #con boton
                             see_more_courses_link = driver.find_element_by_xpath(x_path_actual+'/div[3]/div/a').get_attribute('href')
                             driver.get(see_more_courses_link)
-                            time.sleep(15)
+                            time.sleep(7)
 
                             x_path_general_aux = '/html/body/div['+str(int_div_main)+']/div[3]/div/div/div[2]/div/div/main/'
 
@@ -161,13 +166,17 @@ for i in mail_password:
 
                                 except:
                                     break
-                            
-                        profile.append(courses)
+                        
+                        if(len(courses) == 0):
+                            profile.append(float('NaN'))
+                        else:
+                            profile.append(courses)    
+                        
                         
                         break
 
                     if(id=="honors_and_awards"):
-                       profile.append([])
+                       profile.append(float('NaN'))
                        break
 
                     if(id=="experience"):
@@ -180,7 +189,7 @@ for i in mail_password:
                             driver.get(see_more_experience_link)
                             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-                            time.sleep(randint(5,7))
+                            time.sleep(randint(3,5))
 
                             while(True):
                                 try:
@@ -376,8 +385,6 @@ for i in mail_password:
 
                                             experience = []
                                             
-                                            print(aux_empresa)
-                                            
 
                                             while(True):
 
@@ -477,26 +484,35 @@ for i in mail_password:
 
                                     except:
                                         break
+                        
+                        if(len(experiences) == 0):
+                            profile.append(float('NaN'))
+                        else:
+                            profile.append(experiences)
 
-                        profile.append(experiences)
                         cont = 1
                         driver.get(link_profile)
                         break
+                        
+                        # profile.append(experiences)
+                        # cont = 1
+                        # driver.get(link_profile)
+                        # break
 
                     if(id=="education"):
-                        profile.append([])
+                        profile.append(float('NaN'))
                         break
 
                     if(id=="licenses_and_certifications"):
-                        profile.append([])
+                        profile.append(float('NaN'))
                         break
 
                     if(id=="skills"):
-                        profile.append([])
+                        profile.append(float('NaN'))
                         break
 
                     if(id=="languages"):
-                        profile.append([])
+                        profile.append(float('NaN'))
                         break
 
                     if(id=="recommendations"):
@@ -508,7 +524,7 @@ for i in mail_password:
                             driver.get(see_more_recommendations_link)
                             int_lista_recomendaciones = 1
 
-                            time.sleep(randint(5,7))
+                            time.sleep(randint(3,5))
 
                             try:
 
@@ -635,22 +651,25 @@ for i in mail_password:
 
                 if(int_section>20):
                     #si no encuentra una seccion, quiere decir que no tiene esa info y se guarda un array vacio
-                    profile.append([])
+                    profile.append(float('NaN'))
                     break
 
             
         all_profiles.append(profile)
-        
+
+        print("Lista de: ", profile[0][0], '\n Largo: ', len(profile))
+
+        cont_profiles +=1
+
     driver.close()
     int_txt+=1
-    time.sleep(5)
-            
+    time.sleep(3)  
+                
 
-for perfil in all_profiles:
-    for indice in range(0, len(all_profiles[0])):
-
-        if(len(perfil[indice])==0):
-            perfil[indice] = float('NaN')
+# for perfil in all_profiles:
+#    for indice in range(0, len(all_profiles[0])):
+#        if(perfil[indice]==[]):
+#            perfil[indice] = float('NaN')
 
 data ={
     'Details': [data[0] for data in all_profiles],
