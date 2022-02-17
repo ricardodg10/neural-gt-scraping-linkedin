@@ -523,8 +523,54 @@ for i in mail_password:
                             break
 
                         if(id=="skills"):
-                            profile.append(float('NaN'))
-                            break
+                            if(id=="skills"):
+
+                                all_skills = []
+
+                                try:
+                                    see_more_skills_link = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/a").get_attribute("href")
+                                    driver.get(see_more_skills_link)
+                                    time.sleep(3)
+
+                                    while(True):
+                                        try:
+                                            try:                            
+                                                skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span[1]/span[1]").text
+                                            except:
+                                                try:
+                                                    skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span[1]/span[1]").text
+                                                except:
+                                                    try:
+                                                        skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
+                                                    except:
+                                                        skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
+                                            cont+=1
+                                            all_skills.append(skill)
+                                        except:
+                                            break
+                                except:
+                                    while(True):
+                                        try:
+                                            try:                                        #/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[11]/div/div[2]/div[1]/div[1]/div/span/span[1]  
+                                                skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[4]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
+                                            except:
+                                                skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section[4]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
+                                            cont+=1
+                                            all_skills.append(skill)
+
+                                        except:
+                                            break
+                                        
+                                if(all_skills==[]):
+                                    profile.append(float('NaN'))
+                                else:
+                                    profile.append(all_skills)
+
+                                print(all_skills)
+                                driver.get(link_profile)
+                                time.sleep(3)
+                                
+                                break
 
                         if(id=="languages"):
                             profile.append(float('NaN'))
@@ -670,6 +716,7 @@ for i in mail_password:
                         break
 
             all_profiles.append(profile)
+            print(profile)
 
             if condicion == True:
                 datas=pd.DataFrame(data_key)
