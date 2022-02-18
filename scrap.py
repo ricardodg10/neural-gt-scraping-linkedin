@@ -7,16 +7,13 @@ int_txt = 1
 caracter_comillas = "'"
 
 mail_password =[['linkediiiiiiiiin12@gmail.com','uno23456789'],['josediazlinkedn3@gmail.com','uno23456789']]
-array_ids = ["about", "courses", "honors_and_awards", "experience", "education", "licenses_and_certifications", "skills", "languages", "recommendations", "final"]
-
-all_profiles = []
+array_ids = ["about", "courses", "experience", "education", "licenses_and_certifications", "skills", "languages", "recommendations", "final"]
 
 condicion = True
 data_key ={
     'Details':[],
     'About':[],
     'Courses':[],
-    'Honors and awards':[],
     'Experience':[],
     'Education':[],
     'Licenses and certifications':[],
@@ -50,14 +47,12 @@ for i in mail_password:
 
     for link_profile in Lecture.readlines():
 
-
         cont=1
 
         profile = []
 
         driver.get(link_profile)
-
-        time.sleep(5)
+        time.sleep(4)
 
         data_basic = []
         int_div_main = 5
@@ -92,6 +87,8 @@ for i in mail_password:
 
             for id in array_ids:
 
+                driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
                 if(id=="final"):
                     break
 
@@ -125,6 +122,9 @@ for i in mail_password:
                         x_path_actual = x_path_general+"/section["+str(int_section)+"]"
                         
                         if(id=="about"):
+
+                            # profile.append(float('NaN'))
+                            # break
                             
                             try:
                                 about_profile = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/div/div/span[1]").text
@@ -136,6 +136,8 @@ for i in mail_password:
                                 break
 
                         if(id=="courses"):
+                            # profile.append(float('NaN'))
+                            # break
 
                             courses = []
                             int_course = 1
@@ -167,7 +169,7 @@ for i in mail_password:
 
                                         x_path_general_aux = '/html/body/div['+str(int_div_main)+']/div[3]/div/div/div[2]/div/div/main/'
 
-                                driver.get(link_profile)
+                                
 
                             except:
                                 #sin boton
@@ -187,14 +189,15 @@ for i in mail_password:
                             else:
                                 profile.append(courses)    
                             
+                            driver.get(link_profile)
+                            time.sleep(3)
                             
                             break
 
-                        if(id=="honors_and_awards"):
-                            profile.append(float('NaN'))
-                            break
-
                         if(id=="experience"):
+                            # profile.append(float('NaN'))
+                            # break
+                            time.sleep(5)
 
                             experiences = []
 
@@ -507,76 +510,310 @@ for i in mail_password:
 
                             cont = 1
                             driver.get(link_profile)
+                            time.sleep(3)
                             break
                             
-                            # profile.append(experiences)
-                            # cont = 1
-                            # driver.get(link_profile)
-                            # break
 
                         if(id=="education"):
-                            profile.append(float('NaN'))
+                            # profile.append(float('NaN'))
+                            # break
+                            time.sleep(4)
+                            
+                            educacion = []
+                            cont=1
+                            #con boton
+                            try:
+                                see_more_education_link = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/a").get_attribute("href")
+                                driver.get(see_more_education_link)
+                                time.sleep(3)
+
+                                while(True):
+                                    educacion_nombre = []
+                                    try:          
+                                        try:               
+                                            educacion_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
+                                        except:
+                                            try:
+                                                educacion_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
+                                                
+                                            except:
+                                                break
+                                        cont+=1
+                                        educacion.append(educacion_nombre)
+                                    except:
+                                        break  
+                                time.sleep(2)
+                                #Texto
+                                cont2=0
+                                cont=1
+                                while True:
+                                    try:
+                                        try:
+                                            educacion[cont2].append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text)    
+                                        except:
+                                            educacion[cont2].append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text) 
+                                        cont+=1
+                                        cont2+=1
+                                    except:
+                                        break
+                            #sin boton
+                            except:
+                                #Titulo
+                                while(True):
+                                    educacion_nombre = []
+                                    try:
+                                        try:                                   
+                                            educacion_nombre.append(driver.find_element_by_xpath(x_path_actual+"/div[3]/ul/li["+str(cont)+"]/div/div[2]/div/a/div/span/span[1]").text)
+                                        except:
+                                            educacion_nombre.append(driver.find_element_by_xpath(x_path_actual+"/div[3]/ul/li["+str(cont)+"]/div/div[2]/div/a/div/span/span[1]").text)
+                                        cont+=1
+                                        educacion.append(educacion_nombre)
+                                    except:
+                                        break
+
+                                #texto
+                                cont2=0
+                                cont=1
+                                while True:
+                                    try:
+                                        try:
+                                            educacion[cont2].append(driver.find_element_by_xpath(x_path_actual+"/div[3]/ul/li["+str(cont)+"]/div/div[2]/div/a/span[1]/span[1]").text) 
+                                        except:
+                                            try:
+                                                educacion[cont2].append(driver.find_element_by_xpath(x_path_actual+"/div[3]/ul/li["+str(cont)+"]/div/div[2]/div/a/span[1]/span[1]").text)
+                                            except:
+                                                break
+                                        cont+=1
+                                        cont2+=1
+                                    except:
+                                        break
+
+                            if(educacion==[]):
+                                profile.append(float('NaN'))
+                            else:
+                                profile.append(educacion)
+                            
+                            driver.get(link_profile)
+                            time.sleep(2)
                             break
 
+
                         if(id=="licenses_and_certifications"):
-                            profile.append(float('NaN'))
+                            
+                            time.sleep(2)
+                            
+                            licencias = []
+                            cont=1
+                            try:
+                                see_more_licenses_link = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/a").get_attribute("href")
+                                driver.get(see_more_licenses_link)
+                                time.sleep(3)
+
+                                #Nombre 
+                                while(True):
+                                    licencia_nombre  = [] 
+                                    
+                                    try:
+                                        try:                            
+                                            licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text)
+                                        except:
+                                            try:
+                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text)  
+                                            except:
+                                                try:
+                                                    licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)  
+                                                except:
+                                                    try:
+                                                        licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)  
+                                                    except:
+                                                        try:
+                                                            licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)  
+                                                        except:
+                                                            try:
+                                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)  
+                                                            except:
+                                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
+
+                                        cont+=1
+                                        licencias.append(licencia_nombre)
+
+                                    except:
+                                        break
+                                
+                                #Localidad 
+                                cont2=0
+                                cont=1
+                                while(True):  
+                                    try:
+                                        try:
+                                            licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text)          
+                                        except:
+                                            try:
+                                                licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text) 
+                                            except:    
+                                                try:
+                                                    licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/span[1]/span[1]").text)    
+                                                except:
+                                                    try:
+                                                        licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
+                                                    except:
+                                                        try:
+                                                            licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
+                                                        except:
+                                                            licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/span[1]/span[1]").text)  
+                                        cont+=1
+                                        cont2+=1
+                                        
+                                    except:
+                                        break
+                                print(licencias)
+
+                            #sin boton
+                            except:
+
+                                #nombre
+                                while(True):
+                                    licencia_nombre  = [] 
+                                    try:
+                                        try: 
+                                            licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)
+                                        except:
+                                            try:
+                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)
+                                            except:
+                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
+                                        cont+=1
+                                        licencias.append(licencia_nombre)
+                                    except:
+                                        break
+                                #Lugar
+                                cont2=0
+                                cont=1
+                                while(True):  
+                                    try:
+                                        try:
+                                            licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text)          
+                                        except:
+                                            try:
+                                                licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text)
+                                            except:
+                                                break
+
+                                        cont+=1
+                                        cont2+=1
+                                    except:
+                                        break
+                            
+                            if(licencias==[]):
+                                profile.append(float('NaN'))
+                            else:
+                                profile.append(licencias)
+
+                            driver.get(link_profile)
+                            time.sleep(3)
                             break
 
                         if(id=="skills"):
-                            if(id=="skills"):
+                            # profile.append(float('NaN'))
+                            # break
+                            
+                            
+                            all_skills = []
 
-                                all_skills = []
+                            try:
+                                see_more_skills_link = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/a").get_attribute("href")
+                                driver.get(see_more_skills_link)
+                                time.sleep(3)
 
-                                try:
-                                    see_more_skills_link = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/a").get_attribute("href")
-                                    driver.get(see_more_skills_link)
-                                    time.sleep(3)
-
-                                    while(True):
-                                        try:
-                                            try:                            
-                                                skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span[1]/span[1]").text
+                                while(True):
+                                    try:
+                                        try:                            
+                                            skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span[1]/span[1]").text
+                                        except:
+                                            try:
+                                                skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span[1]/span[1]").text
                                             except:
                                                 try:
-                                                    skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span[1]/span[1]").text
+                                                    skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
                                                 except:
-                                                    try:
-                                                        skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
-                                                    except:
-                                                        skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
-                                            cont+=1
-                                            all_skills.append(skill)
+                                                    skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
+                                        cont+=1
+                                        all_skills.append(skill)
+                                    except:
+                                        break
+                            except:
+                                while(True):
+                                    try:
+                                        try:                                        #/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[11]/div/div[2]/div[1]/div[1]/div/span/span[1]  
+                                            skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[4]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
                                         except:
-                                            break
-                                except:
-                                    while(True):
-                                        try:
-                                            try:                                        #/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div[2]/div/div/div[1]/ul/li[11]/div/div[2]/div[1]/div[1]/div/span/span[1]  
-                                                skill = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[4]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
-                                            except:
-                                                skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section[4]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
-                                            cont+=1
-                                            all_skills.append(skill)
+                                            skill = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section[4]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/div[1]/div/span/span[1]").text
+                                        cont+=1
+                                        all_skills.append(skill)
 
-                                        except:
-                                            break
+                                    except:
+                                        break
                                         
-                                if(all_skills==[]):
-                                    profile.append(float('NaN'))
-                                else:
-                                    profile.append(all_skills)
+                            if(all_skills==[]):
+                                profile.append(float('NaN'))
+                            else:
+                                profile.append(all_skills)
 
-                                print(all_skills)
-                                driver.get(link_profile)
-                                time.sleep(3)
+                            driver.get(link_profile)
+                            time.sleep(3)
                                 
-                                break
+                            break
 
                         if(id=="languages"):
-                            profile.append(float('NaN'))
+                            # profile.append(float('NaN'))
+                            # break
+                            
+                            time.sleep(3)
+                            cont=1
+                            
+                            idiomas = []
+
+                            try:
+                                see_more_languages_link = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/a").get_attribute("href")
+                                driver.get(see_more_languages_link)
+                                time.sleep(5)
+
+                                while(True):
+                                    try:
+                                        try:                            
+                                            idioma_nombre = driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text
+                                        except:
+                                            idioma_nombre = driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text
+                                        cont+=1
+                                        idiomas.append(idioma_nombre)
+                                    except:
+                                        break
+                            #sin boton
+                            except:
+                                while(True):
+                                    try:
+                                        idioma_nombre = driver.find_element_by_xpath(x_path_actual+"/div[3]/ul/li["+str(cont)+"]/div/div[2]/div/div[1]/div/span/span[1]").text
+                                        idiomas.append(idioma_nombre)
+                                        cont+=1
+                                                                                    
+                                    except:
+                                        break
+
+                            if(idiomas==[]):
+                                profile.append(float('NaN'))
+                            else:
+                                profile.append(idiomas)
+
+                            driver.get(link_profile)
+                            time.sleep(2)
+                            cont=1
                             break
 
                         if(id=="recommendations"):
+                            # profile.append(float('NaN'))
+                            # break
+                            
+                            
                             recomendaciones = []
 
                             try:
@@ -700,7 +937,7 @@ for i in mail_password:
 
                                         int_lista_recomendaciones+=1    
 
-                            if(len(recomendaciones) == 0):
+                            if(recomendaciones == []):
                                 profile.append(float('NaN'))
                             else:
                                 profile.append(recomendaciones)
@@ -715,7 +952,6 @@ for i in mail_password:
                         profile.append(float('NaN'))
                         break
 
-            all_profiles.append(profile)
             print(profile)
 
             if condicion == True:
@@ -728,13 +964,12 @@ for i in mail_password:
                     'Details': [profile[0]],
                     'About': [profile[1]],
                     'Courses': [profile[2]],
-                    'Honors and awards': [profile[3]],
-                    'Experience': [profile[4]],
-                    'Education': [profile[5]],
-                    'Licenses and certifications': [profile[6]],
-                    'Skills': [profile[7]],
-                    'Languages': [profile[8]],
-                    'Recommendations': [profile[9]]
+                    'Experience': [profile[3]],
+                    'Education': [profile[4]],
+                    'Licenses and certifications': [profile[5]],
+                    'Skills': [profile[6]],
+                    'Languages': [profile[7]],
+                    'Recommendations': [profile[8]]
                 }
 
                 datas=pd.DataFrame(data)
@@ -746,6 +981,8 @@ for i in mail_password:
 
         except:
             pass
+
+        
 
     driver.close()
     int_txt+=1
