@@ -1,3 +1,4 @@
+from ast import Break
 from selenium import webdriver
 import time
 from random import randint
@@ -6,7 +7,7 @@ import pandas as pd
 int_txt = 1
 caracter_comillas = "'"
 
-mail_password =[['linkediiiiiiiiin12@gmail.com','uno23456789'],['josediazlinkedn3@gmail.com','uno23456789']]
+mail_password =[['linkediiiiiiiiin12@gmail.com','uno23456789'],['random1234usos@gmail.com','uno23456789']]
 array_ids = ["about", "courses", "experience", "education", "licenses_and_certifications", "skills", "languages", "recommendations", "final"]
 
 condicion = True
@@ -52,7 +53,7 @@ for i in mail_password:
         profile = []
 
         driver.get(link_profile)
-        time.sleep(4)
+        time.sleep(2)
 
         data_basic = []
         int_div_main = 5
@@ -122,9 +123,6 @@ for i in mail_password:
                         x_path_actual = x_path_general+"/section["+str(int_section)+"]"
                         
                         if(id=="about"):
-
-                            # profile.append(float('NaN'))
-                            # break
                             
                             try:
                                 about_profile = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/div/div/span[1]").text
@@ -136,8 +134,7 @@ for i in mail_password:
                                 break
 
                         if(id=="courses"):
-                            # profile.append(float('NaN'))
-                            # break
+
 
                             courses = []
                             int_course = 1
@@ -146,7 +143,7 @@ for i in mail_password:
                                 #con boton
                                 see_more_courses_link = driver.find_element_by_xpath(x_path_actual+'/div[3]/div/a').get_attribute('href')
                                 driver.get(see_more_courses_link)
-                                time.sleep(7)
+                                time.sleep(3)
 
                                 x_path_general_aux = '/html/body/div['+str(int_div_main)+']/div[3]/div/div/div[2]/div/div/main/'
 
@@ -195,9 +192,8 @@ for i in mail_password:
                             break
 
                         if(id=="experience"):
-                            # profile.append(float('NaN'))
-                            # break
-                            time.sleep(5)
+
+                            time.sleep(3)
 
                             experiences = []
 
@@ -515,9 +511,8 @@ for i in mail_password:
                             
 
                         if(id=="education"):
-                            # profile.append(float('NaN'))
-                            # break
-                            time.sleep(4)
+
+                            time.sleep(3)
                             
                             educacion = []
                             cont=1
@@ -558,6 +553,7 @@ for i in mail_password:
                                         break
                             #sin boton
                             except:
+                                time.sleep(2)
                                 #Titulo
                                 while(True):
                                     educacion_nombre = []
@@ -570,7 +566,7 @@ for i in mail_password:
                                         educacion.append(educacion_nombre)
                                     except:
                                         break
-
+                                time.sleep(2)        
                                 #texto
                                 cont2=0
                                 cont=1
@@ -627,13 +623,9 @@ for i in mail_password:
                                                         licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)  
                                                     except:
                                                         try:
-                                                            licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)  
+                                                            licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
                                                         except:
-                                                            try:
-                                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)  
-                                                            except:
-                                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
-
+                                                            licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section/div[2]/div/div[1]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)  
                                         cont+=1
                                         licencias.append(licencia_nombre)
 
@@ -641,6 +633,7 @@ for i in mail_password:
                                         break
                                 
                                 #Localidad 
+                                time.sleep(2)
                                 cont2=0
                                 cont=1
                                 while(True):  
@@ -670,34 +663,35 @@ for i in mail_password:
 
                             #sin boton
                             except:
-
+                                time.sleep(2)
                                 #nombre
                                 while(True):
                                     licencia_nombre  = [] 
                                     try:
                                         try: 
-                                            licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)
+                                            licencia_nombre.append(driver.find_element_by_xpath(f"{x_path_actual}/div[3]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)
                                         except:
                                             try:
-                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)
+                                                licencia_nombre.append(driver.find_element_by_xpath(f"{x_path_actual}/div[3]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/div/span/span[1]").text)
                                             except:
-                                                licencia_nombre.append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
+                                                licencia_nombre.append(driver.find_element_by_xpath(f"{x_path_actual}/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/div/span/span[1]").text)
                                         cont+=1
                                         licencias.append(licencia_nombre)
                                     except:
                                         break
+                                time.sleep(2)
                                 #Lugar
                                 cont2=0
                                 cont=1
                                 while(True):  
                                     try:
                                         try:
-                                            licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[5]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text)          
+                                            licencias[cont2].append(driver.find_element_by_xpath(f"{x_path_actual}/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text)          
                                         except:
                                             try:
-                                                licencias[cont2].append(driver.find_element_by_xpath(f"/html/body/div[6]/div[3]/div/div/div[2]/div/div/main/section[7]/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text)
+                                                licencias[cont2].append(driver.find_element_by_xpath(f"{x_path_actual}/div[3]/ul/li[{str(cont)}]/div/div[2]/div[1]/a/span[1]/span[1]").text)
                                             except:
-                                                break
+                                                licencias[cont2].append(driver.find_element_by_xpath(f"{x_path_actual}/div[3]/ul/li[{str(cont)}]/div/div[2]/div/div[1]/span/span[1]").text)
 
                                         cont+=1
                                         cont2+=1
@@ -714,9 +708,6 @@ for i in mail_password:
                             break
 
                         if(id=="skills"):
-                            # profile.append(float('NaN'))
-                            # break
-                            
                             
                             all_skills = []
 
@@ -765,8 +756,6 @@ for i in mail_password:
                             break
 
                         if(id=="languages"):
-                            # profile.append(float('NaN'))
-                            # break
                             
                             time.sleep(3)
                             cont=1
@@ -776,7 +765,7 @@ for i in mail_password:
                             try:
                                 see_more_languages_link = driver.find_element_by_xpath(x_path_actual+"/div[3]/div/a").get_attribute("href")
                                 driver.get(see_more_languages_link)
-                                time.sleep(5)
+                                time.sleep(3)
 
                                 while(True):
                                     try:
@@ -790,6 +779,7 @@ for i in mail_password:
                                         break
                             #sin boton
                             except:
+                                time.sleep(2)
                                 while(True):
                                     try:
                                         idioma_nombre = driver.find_element_by_xpath(x_path_actual+"/div[3]/ul/li["+str(cont)+"]/div/div[2]/div/div[1]/div/span/span[1]").text
@@ -810,9 +800,6 @@ for i in mail_password:
                             break
 
                         if(id=="recommendations"):
-                            # profile.append(float('NaN'))
-                            # break
-                            
                             
                             recomendaciones = []
 
